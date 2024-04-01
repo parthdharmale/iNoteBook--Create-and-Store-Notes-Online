@@ -11,3 +11,9 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+.far.fa-trash-alt:hover {
+  cursor: pointer;
+}
+.far.fa-edit:hover {
+  cursor: pointer;
+}
