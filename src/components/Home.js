@@ -3,12 +3,12 @@ import { Navigate } from "react-router-dom";
 
 import Notes from "./Notes";
 // import AddNote from "./AddNote";
-const Home = ({ isSignedUp , userAuthToken }) => {
+const Home = ({ isSignedUp, userAuthToken, mode }) => {
   return (
     <div>
-      {!isSignedUp && <Navigate to="/login" />}
+      {!isSignedUp && <Navigate to="/signup" />}
 
-      {isSignedUp && <Notes userAuthToken={userAuthToken}/>}
+      {isSignedUp && <Notes mode = {mode} userAuthToken={userAuthToken} />}
     </div>
   );
 };

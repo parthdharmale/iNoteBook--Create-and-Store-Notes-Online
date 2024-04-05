@@ -1,14 +1,15 @@
 import React, { useState, useEffect } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
+import PropTypes from "prop-types";
 
-const Navbar = () => {
+const Navbar = (props) => {
   const [activePage, setActivePage] = useState("");
   const location = useLocation();
   let navigate = useNavigate();
-  const handleLogOut=()=>{
-    localStorage.removeItem('token');
+  const handleLogOut = () => {
+    localStorage.removeItem("token");
     navigate("/login");
-  }
+  };
   useEffect(() => {
     // Extract the pathname from the location object
     const pathname = location.pathname;
@@ -58,7 +59,7 @@ const Navbar = () => {
               </li>
             </ul>
             {!localStorage.getItem("token") ? (
-              <form className="d-flex">
+              <form className="d-flex mx-2">
                 <Link
                   className="btn btn-outline-success mx-2"
                   to="/login"
@@ -67,7 +68,7 @@ const Navbar = () => {
                   Log In
                 </Link>
                 <Link
-                  className="btn btn-outline-success mxx-2"
+                  className="btn btn-outline-success mxx2"
                   to="/signup"
                   role="button"
                 >
@@ -75,8 +76,30 @@ const Navbar = () => {
                 </Link>
               </form>
             ) : (
-              <button className="btn btn-primary" onClick={handleLogOut}> Log Out </button>
+              <button className="btn btn-primary mx-2" onClick={handleLogOut}>
+                {" "}
+                Log Out{" "}
+              </button>
             )}
+          </div>
+          {/* <div
+            className={`form-check form-switch text-${
+              props.mode === "light" ? "dark" : "light"
+            }`}
+          > */}
+          <div className="form-check form-switch text-light">
+            <input
+              className="form-check-input"
+              onClick={props.toggleMode}
+              type="checkbox"
+              id="flexSwitchCheckDefault"
+            />
+            <label
+              className="form-check-label"
+              htmlFor="flexSwitchCheckDefault"
+            >
+              Enable DarkMode
+            </label>
           </div>
         </div>
       </nav>

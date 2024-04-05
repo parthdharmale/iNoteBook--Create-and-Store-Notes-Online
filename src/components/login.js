@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
-const Login = ({ setIsSignedUp }) => {
+const Login = ({ setIsSignedUp, mode }) => {
   const [credentials, setCredentials] = useState({ email: "", password: "" });
   // const [password, setPassword] = useState("")
 
@@ -42,7 +42,7 @@ const Login = ({ setIsSignedUp }) => {
   return (
     <div>
       <form onSubmit={handleSubmit}>
-        <div className="mb-3 my-3">
+        <div className={`mb-3 my-3 text-${mode==="light"? "dark":"light"}`}>
           <label htmlFor="email" className="form-label">
             Email address
           </label>
@@ -56,7 +56,7 @@ const Login = ({ setIsSignedUp }) => {
             onChange={onChange}
           />
         </div>
-        <div className="mb-3 my-3">
+        <div className={`mb-3 my-3 text-${mode==="light"? "dark":"light"}`}>
           <label htmlFor="password" className="form-label">
             Password
           </label>
@@ -69,7 +69,7 @@ const Login = ({ setIsSignedUp }) => {
             onChange={onChange}
           />
         </div>
-        <button type="submit" className="btn btn-primary">
+        <button type="submit" className="btn btn-primary text-light">
           Submit
         </button>
         <Link

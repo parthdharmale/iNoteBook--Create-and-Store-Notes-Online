@@ -12,23 +12,36 @@ import { useState } from "react";
 
 function App() {
   const [isSignedUp, setIsSignedUp] = useState(false);
+  const [mode, setMode] = useState("light");
+
+  const toggleMode = () => {
+    if (mode === "light") {
+      setMode("dark");
+      document.body.style.backgroundColor = "#000506";
+      document.body.style.color = "white"; // Set text color to white
+    } else if (mode === "dark") {
+      setMode("light");
+      document.body.style.backgroundColor = "white";
+      document.body.style.color = "black"; // Set text color to white
+    }
+  };
   // const [userAuthToken, setuserAuthToken] = useState("");
   return (
     <>
       <NoteState>
         <Router>
-          <Navbar />
+          <Navbar mode={mode} toggleMode={toggleMode} />
           <Alert message="Welcome to iNotebook" />
           <div className="container">
             <Routes>
               <Route
                 path="/"
-                element={<Home isSignedUp={isSignedUp}  />}
+                element={<Home mode = {mode} isSignedUp={isSignedUp} />}
               ></Route>
               <Route path="/about" element={<About />}></Route>
               <Route
                 path="/login"
-                element={<Login setIsSignedUp={setIsSignedUp}  />}
+                element={<Login mode={mode} setIsSignedUp={setIsSignedUp} />}
               ></Route>
               <Route
                 path="/signup"

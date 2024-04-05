@@ -1,5 +1,7 @@
 const mongoose = require("mongoose");
-const mongoURI = "mongodb://localhost:27017/inotebook";
+// const mongoURI = "mongodb://localhost:27017/inotebook";
+const mongoURI =
+  "mongodb+srv://parthdharmale:parth1234@inotebookcluster.kol1atk.mongodb.net/";
 
 const connectToMongo = () => {
   // mongoose.connect(mongoURI, ()=>{
@@ -22,3 +24,5 @@ const connectToMongo = () => {
 };
 
 module.exports = connectToMongo;
+
+// mongodb+srv://parthdharmale008:<password>@inotebookcluster.zmjosdl.mongodb.net/

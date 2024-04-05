@@ -4,7 +4,7 @@ import NoteItem from "./NoteItem";
 import AddNote from "./AddNote";
 import Alert from "./Alert";
 import { useNavigate } from "react-router-dom";
-const Notes = () => {
+const Notes = ({ mode }) => {
   const context = useContext(noteContext);
   const { notes, getNotes, editNote } = context;
   const [showAlert, setShowAlert] = useState(false);
@@ -12,12 +12,12 @@ const Notes = () => {
   let name = localStorage.getItem("userName");
   useEffect(() => {
     console.log("USEEFFECT");
-    if(localStorage.getItem('token')){
+    if (localStorage.getItem("token")) {
       getNotes();
-    }else{
-      navigate( "/login" );
+    } else {
+      navigate("/login");
     }
-    
+
     // eslint-disable-next-line
   }, []);
 
@@ -60,7 +60,7 @@ const Notes = () => {
     <>
       {showAlert && <Alert message="Note updated successfully!" />}
 
-      <AddNote username={name}/>
+      <AddNote username={name} />
       <button
         ref={ref}
         type="button"
@@ -72,6 +72,7 @@ const Notes = () => {
       </button>
       <div
         className="modal fade"
+        // style={{ backgroundColor: mode === "light" ? "lightgray" : "darkgray" }}
         id="exampleModal"
         tabIndex="-1"
         aria-labelledby="exampleModalLabel"
@@ -80,7 +81,7 @@ const Notes = () => {
         <div className="modal-dialog">
           <div className="modal-content">
             <div className="modal-header">
-              <h5 className="modal-title" id="exampleModalLabel">
+              <h5 className="modal-title text-dark" id="exampleModalLabel">
                 Edit Your Note
               </h5>
               <button
@@ -93,7 +94,13 @@ const Notes = () => {
             <div className="modal-body">
               <form className="my-4">
                 <div className="mb-3">
-                  <label htmlFor="title" className="form-label">
+                  {/* <label htmlFor="title" className="form-label"> */}
+                  <label
+                    htmlFor="title"
+                    className={`form-label text-${
+                      mode === "light" ? "dark" : "dark"
+                    }`}
+                  >
                     Update Note's Title
                   </label>
                   <input
@@ -107,7 +114,12 @@ const Notes = () => {
                   />
                 </div>
                 <div className="mb-3">
-                  <label htmlFor="desc" className="form-label">
+                  <label
+                    htmlFor="desc"
+                    className={`form-label text-${
+                      mode === "light" ? "dark" : "dark"
+                    }`}
+                  >
                     Update Description
                   </label>
                   <input
@@ -120,7 +132,12 @@ const Notes = () => {
                   />
                 </div>
                 <div className="mb-3">
-                  <label htmlFor="tag" className="form-label">
+                  <label
+                    htmlFor="tag"
+                    className={`form-label text-${
+                      mode === "light" ? "dark" : "dark"
+                    }`}
+                  >
                     Update Tag
                   </label>
                   <input
