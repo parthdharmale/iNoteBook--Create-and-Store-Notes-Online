@@ -13,7 +13,10 @@ import { useState } from "react";
 function App() {
   const [isSignedUp, setIsSignedUp] = useState(false);
   const [mode, setMode] = useState("light");
-
+  // document.body.style.backgroundColor = "#C9F5FD";
+  if (mode === "light") {
+    document.body.style.backgroundColor = "#C9F5FD";
+  }
   const toggleMode = () => {
     if (mode === "light") {
       setMode("dark");
@@ -21,7 +24,7 @@ function App() {
       document.body.style.color = "white"; // Set text color to white
     } else if (mode === "dark") {
       setMode("light");
-      document.body.style.backgroundColor = "white";
+      document.body.style.backgroundColor = "#C9F5FD";
       document.body.style.color = "black"; // Set text color to white
     }
   };
@@ -36,7 +39,7 @@ function App() {
             <Routes>
               <Route
                 path="/"
-                element={<Home mode = {mode} isSignedUp={isSignedUp} />}
+                element={<Home mode={mode} isSignedUp={isSignedUp} />}
               ></Route>
               <Route path="/about" element={<About />}></Route>
               <Route
