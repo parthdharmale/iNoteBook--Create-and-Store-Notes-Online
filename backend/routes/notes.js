@@ -120,5 +120,15 @@ router.delete("/deletenote/:id", fetchuser, async (req, res) => {
     
 });
 
+router.post('/search/:title', async (req, res) => {
+    const { title } = req.params;
+    try {
+        const notes = await Note.find({ title: { $regex: title, $options: 'i' } });
+        res.json(notes);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Server Error' });
+    }
+});
 // 65f81693c201742686025ca0
 module.exports = router;

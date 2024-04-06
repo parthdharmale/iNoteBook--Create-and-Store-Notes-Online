@@ -50,3 +50,15 @@ nav li {
 nav li.active a {
   color: black; /* Apply your desired style for the active link */
 }
+.custom-search-input {
+  width: 800px; /* Set the desired width */
+}
+.custom-login {
+  width: 100px; /* Set the desired width */
+}
+.custom-signup {
+  width: 100px; /* Set the desired width */
+}
+.custom-logout {
+  width: 100px; /* Set the desired width */
+}

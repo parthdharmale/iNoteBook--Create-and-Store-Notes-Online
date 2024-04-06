@@ -4,7 +4,7 @@ import NoteItem from "./NoteItem";
 import AddNote from "./AddNote";
 import Alert from "./Alert";
 import { useNavigate } from "react-router-dom";
-const Notes = ({ mode }) => {
+const Notes = ({ mode, searchquery }) => {
   const context = useContext(noteContext);
   const { notes, getNotes, editNote } = context;
   const [showAlert, setShowAlert] = useState(false);
@@ -20,7 +20,9 @@ const Notes = ({ mode }) => {
 
     // eslint-disable-next-line
   }, []);
-
+  const filteredNotes = notes.filter((note) =>
+    note.title.toLowerCase().includes(searchquery.toLowerCase())
+  );
   const ref = useRef(null);
   const refClose = useRef();
   const [note, setNote] = useState({
@@ -176,14 +178,27 @@ const Notes = ({ mode }) => {
       </div>
       {/* {showAlert && <Alert message="Note updated successfully!" />} */}
 
-      <div className="row my-3">
-        <h1>Your Notes</h1>
-        {notes.map((note, index) => {
-          return (
-            <NoteItem key={note._id} updateNote={updateNote} note={note} />
-          );
-        })}
-      </div>
+      {!searchquery ? (
+        <div className="row my-3">
+          <h1>Your Notes</h1>
+          {notes.map((note, index) => {
+            return (
+              <NoteItem key={note._id} updateNote={updateNote} note={note} />
+            );
+          })}
+        </div>
+      ) : (
+        <div className="row my-3">
+          <h1>Search Results</h1>
+          {filteredNotes ? (
+            filteredNotes.map((note) => {
+              return <NoteItem key={note._id} note={note} />;
+            })
+          ) : (
+            <div>No results found</div>
+          )}
+        </div>
+      )}
     </>
   );
 };

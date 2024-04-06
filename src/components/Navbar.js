@@ -4,6 +4,13 @@ import PropTypes from "prop-types";
 
 const Navbar = (props) => {
   const [activePage, setActivePage] = useState("");
+  const [searchValue, setSearchValue] = useState('');
+
+  const handleSearchChange = (e) => {
+    const { value } = e.target;
+    setSearchValue(value);
+    props.setsearchquery(value); // Pass the search query to the parent component
+  };
   const location = useLocation();
   let navigate = useNavigate();
   const handleLogOut = () => {
@@ -47,7 +54,7 @@ const Navbar = (props) => {
                   Home
                 </Link>
               </li>
-              <li className="nav-item">
+              {/* <li className="nav-item">
                 <Link
                   className={`nav-link ${
                     location.pathname === "/about" ? "active" : ""
@@ -56,19 +63,35 @@ const Navbar = (props) => {
                 >
                   About
                 </Link>
-              </li>
+              </li> */}
             </ul>
+            {localStorage.getItem("token") && (
+              <div className="container-fluid">
+                <div className="row justify-content-center">
+                  <form className="form-inline my-2 my-lg-0">
+                    <input
+                      className="form-control mr-sm-2 custom-search-input"
+                      type="search"
+                      placeholder="Search"
+                      aria-label="Search"
+                      value={searchValue}
+                      onChange={handleSearchChange}
+                    />
+                  </form>
+                </div>
+              </div>
+            )}
             {!localStorage.getItem("token") ? (
               <form className="d-flex mx-2">
                 <Link
-                  className="btn btn-outline-success mx-2"
+                  className="btn btn-outline-success mx-2 custom-login"
                   to="/login"
                   role="button"
                 >
                   Log In
                 </Link>
                 <Link
-                  className="btn btn-outline-success mxx2"
+                  className="btn btn-outline-success mxx2 custom-signup"
                   to="/signup"
                   role="button"
                 >
@@ -76,7 +99,10 @@ const Navbar = (props) => {
                 </Link>
               </form>
             ) : (
-              <button className="btn btn-primary mx-2" onClick={handleLogOut}>
+              <button
+                className="btn btn-primary mx-2 custom-logout"
+                onClick={handleLogOut}
+              >
                 {" "}
                 Log Out{" "}
               </button>
@@ -108,3 +134,12 @@ const Navbar = (props) => {
 };
 
 export default Navbar;
+
+{
+  /* <button
+                    className="btn btn-outline-success my-2 my-sm-0"
+                    type="submit"
+                  >
+                    Search
+                  </button> */
+}

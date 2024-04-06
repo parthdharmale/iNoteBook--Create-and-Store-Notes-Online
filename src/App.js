@@ -12,6 +12,7 @@ import { useState } from "react";
 
 function App() {
   const [isSignedUp, setIsSignedUp] = useState(false);
+  const [searchquery, setsearchquery] = useState("");
   const [mode, setMode] = useState("light");
   // document.body.style.backgroundColor = "#C9F5FD";
   if (mode === "light") {
@@ -33,13 +34,13 @@ function App() {
     <>
       <NoteState>
         <Router>
-          <Navbar mode={mode} toggleMode={toggleMode} />
+          <Navbar setsearchquery={setsearchquery} isSignedUp={isSignedUp} mode={mode} toggleMode={toggleMode} />
           <Alert message="Welcome to iNotebook" />
           <div className="container">
             <Routes>
               <Route
                 path="/"
-                element={<Home mode={mode} isSignedUp={isSignedUp} />}
+                element={<Home searchquery={searchquery} mode={mode} isSignedUp={isSignedUp} />}
               ></Route>
               <Route path="/about" element={<About />}></Route>
               <Route

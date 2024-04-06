@@ -9,6 +9,7 @@ const NoteState = (props) => {
   const notesInitial = [];
   // const mongoose = require("mongoose");
   const [notes, setNotes] = useState(notesInitial);
+  const [searchNotes, setsearchNotes] = useState(notesInitial);
   const authToken = localStorage.getItem("token");
   // Get All Notes
   const getNotes = async () => {
@@ -35,18 +36,17 @@ const NoteState = (props) => {
     // API Call
     // const newId = mongoose.Types.ObjectId();
 
-    
     const response = await fetch(`${host}/api/notes/addnote`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
         "auth-token":
-        // "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjVmNDlmOGE2ZWNiMjMxMTNhZGQ1OGMwIn0sImlhdCI6MTcxMDcwMjM2OX0.S0lmxrdNGfXp2VtoyU9mbvOU23-fsM9L1Z7aM_9ZeHQ",
-        authToken,
+          // "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjVmNDlmOGE2ZWNiMjMxMTNhZGQ1OGMwIn0sImlhdCI6MTcxMDcwMjM2OX0.S0lmxrdNGfXp2VtoyU9mbvOU23-fsM9L1Z7aM_9ZeHQ",
+          authToken,
       },
       body: JSON.stringify({ title, description, tag }),
     });
-    
+
     const json = await response.json();
     const note = {
       // _id: "65f815c065f4540d703bah94489",
@@ -83,6 +83,22 @@ const NoteState = (props) => {
       return note._id !== id;
     });
     setNotes(newNotes);
+  };
+  const searchNote = async (title) => {
+    const response = await fetch(`${host}/api/notes/search/${title}`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "auth-token":
+          // "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjVmNDlmOGE2ZWNiMjMxMTNhZGQ1OGMwIn0sImlhdCI6MTcxMDcwMjM2OX0.S0lmxrdNGfXp2VtoyU9mbvOU23-fsM9L1Z7aM_9ZeHQ",
+          authToken,
+      },
+    });
+    // console.log("Deleting note" + id);
+    const newNotes = searchNotes.filter((note) => {
+      return note.title === title;
+    });
+    setsearchNotes(newNotes);
   };
 
   //   Edit a note
@@ -151,7 +167,7 @@ const NoteState = (props) => {
 
   return (
     <noteContext.Provider
-      value={{ notes, addNote, deleteNote, editNote, getNotes }}
+      value={{ notes, addNote, deleteNote, editNote, getNotes, searchNote }}
     >
       {props.children}
     </noteContext.Provider>
