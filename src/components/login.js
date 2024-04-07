@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
-const Login = ({ setIsSignedUp, mode }) => {
+const Login = ({ setusername, setIsSignedUp, mode }) => {
   const [credentials, setCredentials] = useState({ email: "", password: "" });
   // const [password, setPassword] = useState("")
 
@@ -22,11 +22,18 @@ const Login = ({ setIsSignedUp, mode }) => {
     });
 
     const json = await response.json();
+
     console.log(json);
+    if (credentials && credentials.email) {
+      let name = json.name.split(" ")[0];
+      name = name.charAt(0).toUpperCase() + name.slice(1).toLowerCase();
+      console.log(name);
+      setusername(name);
+    }
     if (json.success) {
       // Save the authtoken and redirect
       localStorage.setItem("token", json.authtoken);
-      localStorage.setItem("userName", json.name);
+      // localStorage.setItem("userName", json.name);
 
       setIsSignedUp(true);
       navigate("/");
@@ -42,7 +49,10 @@ const Login = ({ setIsSignedUp, mode }) => {
   return (
     <div>
       <form onSubmit={handleSubmit}>
-        <div className={`mb-3 my-3 text-${mode==="light"? "dark":"light"}`}>
+        <div
+          // className={`mb-3 my-3 text-${localStorage.getItem("storedMode") === "light" ? "dark" : "light"}`}
+          className="mb-3 my-3"
+        >
           <label htmlFor="email" className="form-label">
             Email address
           </label>
@@ -56,7 +66,10 @@ const Login = ({ setIsSignedUp, mode }) => {
             onChange={onChange}
           />
         </div>
-        <div className={`mb-3 my-3 text-${mode==="light"? "dark":"light"}`}>
+        <div
+          // className={`mb-3 my-3 text-${localStorage.getItem("storedMode") === "light" ? "dark" : "light"}`}
+          className="mb-3 my-3"
+        >
           <label htmlFor="password" className="form-label">
             Password
           </label>

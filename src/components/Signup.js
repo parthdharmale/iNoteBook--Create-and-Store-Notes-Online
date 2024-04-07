@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
-const Signup = ({ setIsSignedUp }) => {
+const Signup = ({ setusername, setIsSignedUp }) => {
   const [credentials, setCredentials] = useState({
     name: "",
     email: "",
@@ -10,6 +10,10 @@ const Signup = ({ setIsSignedUp }) => {
   });
   let navigate = useNavigate();
   const handleSubmit = async (e) => {
+    if (credentials && credentials.name) {
+      let name = credentials.name.split(" ")[0];
+      setusername(name);
+    } 
     if (credentials.password !== credentials.confirmPassword) {
       alert("Passwords do not match");
     } else {

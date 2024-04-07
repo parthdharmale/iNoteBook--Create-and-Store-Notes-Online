@@ -4,7 +4,7 @@ import NoteItem from "./NoteItem";
 import AddNote from "./AddNote";
 import Alert from "./Alert";
 import { useNavigate } from "react-router-dom";
-const Notes = ({ mode, searchquery }) => {
+const Notes = ({ username, mode, searchquery }) => {
   const context = useContext(noteContext);
   const { notes, getNotes, editNote } = context;
   const [showAlert, setShowAlert] = useState(false);
@@ -62,7 +62,7 @@ const Notes = ({ mode, searchquery }) => {
     <>
       {showAlert && <Alert message="Note updated successfully!" />}
 
-      <AddNote username={name} />
+      <AddNote username={username} />
       <button
         ref={ref}
         type="button"

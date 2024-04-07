@@ -12,19 +12,43 @@ import { useState } from "react";
 
 function App() {
   const [isSignedUp, setIsSignedUp] = useState(false);
+  const [username, setusername] = useState("");
   const [searchquery, setsearchquery] = useState("");
-  const [mode, setMode] = useState("light");
-  // document.body.style.backgroundColor = "#C9F5FD";
-  if (mode === "light") {
-    document.body.style.backgroundColor = "#C9F5FD";
+  // const [mode, setMode] = useState("light");
+  let mode = "light";
+  if (!localStorage.getItem("storedMode")) {
+    localStorage.setItem("storedMode", mode);
   }
+  // localStorage.setItem("storedMode", mode);
+  // document.body.style.backgroundColor = "#C9F5FD";
+  // const storedMode = localStorage.getItem("mode");
+  // if (mode === "light") {
+  //   document.body.style.backgroundColor = "#C9F5FD";
+  // }
+
+  if (localStorage.getItem("storedMode") === "light") {
+    document.body.style.backgroundColor = "#C9F5FD";
+    document.body.style.color = "black"; // Set text color to white
+  } else if (localStorage.getItem("storedMode") === "dark") {
+    document.body.style.backgroundColor = "#000506";
+    document.body.style.color = "white"; // Set text color to white
+  }
+  // console.log(localStorage.getItem("storedMode"));
+
   const toggleMode = () => {
-    if (mode === "light") {
-      setMode("dark");
+    if (localStorage.getItem("storedMode") === "light") {
+      // setMode("dark");
+      // console.log("inside if 1");
+      mode = "dark";
+      localStorage.setItem("storedMode", mode);
+      // console.log(localStorage.getItem("storedMode"));
       document.body.style.backgroundColor = "#000506";
       document.body.style.color = "white"; // Set text color to white
-    } else if (mode === "dark") {
-      setMode("light");
+    } else if (localStorage.getItem("storedMode") === "dark") {
+      // setMode("light");
+      mode = "light";
+      localStorage.setItem("storedMode", mode);
+      // console.log(localStorage.getItem("storedMode"));
       document.body.style.backgroundColor = "#C9F5FD";
       document.body.style.color = "black"; // Set text color to white
     }
@@ -34,22 +58,45 @@ function App() {
     <>
       <NoteState>
         <Router>
-          <Navbar setsearchquery={setsearchquery} isSignedUp={isSignedUp} mode={mode} toggleMode={toggleMode} />
+          <Navbar
+            setsearchquery={setsearchquery}
+            isSignedUp={isSignedUp}
+            // mode={mode}
+            toggleMode={toggleMode}
+          />
           <Alert message="Welcome to iNotebook" />
           <div className="container">
             <Routes>
               <Route
                 path="/"
-                element={<Home searchquery={searchquery} mode={mode} isSignedUp={isSignedUp} />}
+                element={
+                  <Home
+                    username={username}
+                    searchquery={searchquery}
+                    mode={mode}
+                    isSignedUp={isSignedUp}
+                  />
+                }
               ></Route>
               <Route path="/about" element={<About />}></Route>
               <Route
                 path="/login"
-                element={<Login mode={mode} setIsSignedUp={setIsSignedUp} />}
+                element={
+                  <Login
+                    // mode={mode}
+                    setusername={setusername}
+                    setIsSignedUp={setIsSignedUp}
+                  />
+                }
               ></Route>
               <Route
                 path="/signup"
-                element={<Signup setIsSignedUp={setIsSignedUp} />}
+                element={
+                  <Signup
+                    setusername={setusername}
+                    setIsSignedUp={setIsSignedUp}
+                  />
+                }
               ></Route>
             </Routes>
           </div>

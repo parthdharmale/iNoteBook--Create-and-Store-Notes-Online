@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 
 const Navbar = (props) => {
   const [activePage, setActivePage] = useState("");
-  const [searchValue, setSearchValue] = useState('');
+  const [searchValue, setSearchValue] = useState("");
 
   const handleSearchChange = (e) => {
     const { value } = e.target;
@@ -23,6 +23,7 @@ const Navbar = (props) => {
     // Set the active page based on the pathname
     setActivePage(pathname);
   }, [location]);
+
   return (
     <div>
       <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -113,18 +114,21 @@ const Navbar = (props) => {
               props.mode === "light" ? "dark" : "light"
             }`}
           > */}
+          
           <div className="form-check form-switch text-light">
             <input
               className="form-check-input"
               onClick={props.toggleMode}
+              // onClick={handleToggleMode}
               type="checkbox"
               id="flexSwitchCheckDefault"
+              // checked={localStorage.getItem("storedMode") === "dark"}
             />
             <label
               className="form-check-label"
               htmlFor="flexSwitchCheckDefault"
             >
-              Enable DarkMode
+              Switch Mode
             </label>
           </div>
         </div>
