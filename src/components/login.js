@@ -24,16 +24,17 @@ const Login = ({ setusername, setIsSignedUp, mode }) => {
     const json = await response.json();
 
     console.log(json);
-    if (credentials && credentials.email) {
-      let name = json.name.split(" ")[0];
-      name = name.charAt(0).toUpperCase() + name.slice(1).toLowerCase();
-      console.log(name);
-      setusername(name);
-    }
+    // if (credentials && credentials.email) {
+    //   let name = json.name.split(" ")[0];
+    //   name = name.charAt(0).toUpperCase() + name.slice(1).toLowerCase();
+    //   // console.log(name);
+    //   // setusername(name);
+    // }
     if (json.success) {
       // Save the authtoken and redirect
       localStorage.setItem("token", json.authtoken);
-      // localStorage.setItem("userName", json.name);
+      localStorage.setItem("username", json.name);
+      localStorage.setItem("userEmail", credentials.email);
 
       setIsSignedUp(true);
       navigate("/");

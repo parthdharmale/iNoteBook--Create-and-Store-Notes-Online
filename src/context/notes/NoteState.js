@@ -6,8 +6,10 @@ import noteContext from "./noteContext";
 
 const NoteState = (props) => {
   const host = "http://localhost:5000";
+  const sharednotesInitial = [];
   const notesInitial = [];
   // const mongoose = require("mongoose");
+  const [sharednotes, setSharednotes] = useState(sharednotesInitial)
   const [notes, setNotes] = useState(notesInitial);
   const [searchNotes, setsearchNotes] = useState(notesInitial);
   const authToken = localStorage.getItem("token");
@@ -29,6 +31,25 @@ const NoteState = (props) => {
 
     console.log(json);
     setNotes(json);
+  };
+  const getSharedNotes = async (userEmail) => {
+    // API Call
+    console.log("Inside getSharedNotes")
+    const response = await fetch(`${host}/api/sharednotes/fetchsharednotes`, {
+      method: "GET", // *GET, POST, PUT, DELETE, etc.
+      headers: {
+        "Content-Type": "application/json",
+        "auth-token":
+          // "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjVmNDlmOGE2ZWNiMjMxMTNhZGQ1OGMwIn0sImlhdCI6MTcxMDcwMjM2OX0.S0lmxrdNGfXp2VtoyU9mbvOU23-fsM9L1Z7aM_9ZeHQ",
+          authToken,
+      },
+      // body: JSON.stringify({userEmail}),
+    });
+
+    const json = await response.json();
+
+    console.log(json);
+    setSharednotes(json);
   };
 
   //   Add a note
@@ -66,6 +87,35 @@ const NoteState = (props) => {
     // setNotes(notes.concat(note))
     // console.log("Adding a new note");
   };
+
+  // Add sharedNote
+  const addSharedNote = async(user2, title, description, tag)=>{
+    const response = await fetch(`${host}/api/sharednotes/addsharednote`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "auth-token":
+          // "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjVmNDlmOGE2ZWNiMjMxMTNhZGQ1OGMwIn0sImlhdCI6MTcxMDcwMjM2OX0.S0lmxrdNGfXp2VtoyU9mbvOU23-fsM9L1Z7aM_9ZeHQ",
+          authToken,
+      },
+      body: JSON.stringify({ user2, title, description, tag }),
+    });
+
+    const json = await response.json();
+    const note = {
+      _id: json._id,
+      user1: json.user1,
+      user2: json.user2,
+      title : title,
+      description: description,
+      tag: tag,
+      date: "2024-03-18T10:21:52.495Z",
+      __v: 0,
+    }
+
+    console.log(json);
+    setSharednotes(sharednotes.concat(note));
+  }
   //   Delete a note
 
   const deleteNote = async (id) => {
@@ -84,6 +134,23 @@ const NoteState = (props) => {
     });
     setNotes(newNotes);
   };
+  const deleteSharedNote = async (id) => {
+    const response = await fetch(`${host}/api/sharednotes/deleteSharedNote/${id}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        "auth-token":
+          // "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjVmNDlmOGE2ZWNiMjMxMTNhZGQ1OGMwIn0sImlhdCI6MTcxMDcwMjM2OX0.S0lmxrdNGfXp2VtoyU9mbvOU23-fsM9L1Z7aM_9ZeHQ",
+          authToken,
+      },
+    });
+    console.log("Deleting note" + id);
+    const newNotes = sharednotes.filter((note) => {
+      return note._id !== id;
+    });
+    setSharednotes(newNotes);
+  };
+
   const searchNote = async (title) => {
     const response = await fetch(`${host}/api/notes/search/${title}`, {
       method: "POST",
@@ -167,7 +234,7 @@ const NoteState = (props) => {
 
   return (
     <noteContext.Provider
-      value={{ notes, addNote, deleteNote, editNote, getNotes, searchNote }}
+      value={{ sharednotes, notes,deleteSharedNote, getSharedNotes, addNote, deleteNote, editNote, getNotes, searchNote, addSharedNote}}
     >
       {props.children}
     </noteContext.Provider>

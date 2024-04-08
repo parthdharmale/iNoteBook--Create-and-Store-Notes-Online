@@ -1,4 +1,5 @@
 import React from "react";
+import MyEditor from "./MyEditor";
 
 // import { useContext, useEffect } from "react";
 // import noteContext from "../context/notes/noteContext";
@@ -8,7 +9,9 @@ const About = () => {
 
   return (
     <div>
-      This is About page
+      {/* <MyEditor/> */}
+
+      
     </div>
   );
 };

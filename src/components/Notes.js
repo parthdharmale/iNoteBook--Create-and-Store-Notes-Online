@@ -4,16 +4,21 @@ import NoteItem from "./NoteItem";
 import AddNote from "./AddNote";
 import Alert from "./Alert";
 import { useNavigate } from "react-router-dom";
-const Notes = ({ username, mode, searchquery }) => {
+// import Note from "../../backend/models/Note";
+const Notes = ({  mode, searchquery }) => {
   const context = useContext(noteContext);
-  const { notes, getNotes, editNote } = context;
+  const { getSharedNotes,sharednotes,notes, getNotes, editNote } = context;
   const [showAlert, setShowAlert] = useState(false);
   let navigate = useNavigate();
-  let name = localStorage.getItem("userName");
+  let username = localStorage.getItem("username");
   useEffect(() => {
     console.log("USEEFFECT");
     if (localStorage.getItem("token")) {
+      let userEmail = localStorage.getItem("userEmail");
       getNotes();
+      // getSharedNotes(userEmail);
+      getSharedNotes();
+
     } else {
       navigate("/login");
     }
@@ -57,6 +62,7 @@ const Notes = ({ username, mode, searchquery }) => {
     console.log("Onchange");
     setNote({ ...note, [e.target.name]: e.target.value });
   };
+  const isSharedNote = true;
 
   return (
     <>
@@ -199,6 +205,15 @@ const Notes = ({ username, mode, searchquery }) => {
           )}
         </div>
       )}
+
+      <div className="row my-3">
+        <h1>Your Shared Notes</h1>
+          {sharednotes.map((note,index) =>{
+            return (
+              <NoteItem key = {note._id} isSharedNote = {isSharedNote} note = {note}/>
+            );
+          })}
+      </div>
     </>
   );
 };

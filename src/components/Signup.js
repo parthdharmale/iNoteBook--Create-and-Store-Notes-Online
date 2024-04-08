@@ -10,6 +10,7 @@ const Signup = ({ setusername, setIsSignedUp }) => {
   });
   let navigate = useNavigate();
   const handleSubmit = async (e) => {
+
     if (credentials && credentials.name) {
       let name = credentials.name.split(" ")[0];
       setusername(name);
@@ -33,6 +34,8 @@ const Signup = ({ setusername, setIsSignedUp }) => {
           }),
         }
       );
+
+      localStorage.setIItem("userEmail", credentials.email);
 
       const json = await response.json();
       console.log(json);

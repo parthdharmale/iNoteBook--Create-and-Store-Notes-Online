@@ -55,7 +55,7 @@ const Navbar = (props) => {
                   Home
                 </Link>
               </li>
-              {/* <li className="nav-item">
+              <li className="nav-item">
                 <Link
                   className={`nav-link ${
                     location.pathname === "/about" ? "active" : ""
@@ -64,7 +64,7 @@ const Navbar = (props) => {
                 >
                   About
                 </Link>
-              </li> */}
+              </li>
             </ul>
             {localStorage.getItem("token") && (
               <div className="container-fluid">

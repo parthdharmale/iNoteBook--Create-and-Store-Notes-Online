@@ -1,15 +1,46 @@
 import React, { useContext, useState } from "react";
 import noteContext from "../context/notes/noteContext";
 
+import { EditorState } from 'draft-js';
+import { Editor } from 'react-draft-wysiwyg';
+
+import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
+import './App.css';
+
 const AddNote = ({ username }) => {
   const context = useContext(noteContext);
-  const { addNote } = context;
-
+  const { addSharedNote ,addNote } = context;
+  const [editorState, setEditorState] = useState(
+    () => EditorState.createEmpty(),
+  );
   const [note, setNote] = useState({
     title: "",
     description: "",
     tag: "",
+    shareduser: "",
   });
+  // const onEditorChange = (editorState) => {
+  //   setEditorState(editorState);
+  //   setNote({ ...note, description: editorState.getCurrentContent().getPlainText() });
+  //   // onChange();
+  // };
+  const handleSharedClick = (e) =>{
+    e.preventDefault();
+
+    if (!note.title || !note.description) {
+      window.alert("Please enter values for title and description");
+    } else {
+      addSharedNote(note.shareduser, note.title, note.description, note.tag);
+      //   window.alert("Note Added Succesfully");
+    }
+
+    setNote({
+      title: "",
+      description: "",
+      tag: "",
+      shareduser: "",
+    });
+  }
   const handleClick = (e) => {
     e.preventDefault();
 
@@ -24,15 +55,17 @@ const AddNote = ({ username }) => {
       title: "",
       description: "",
       tag: "",
+      shareduser: "",
     });
   };
-
+  username = username.charAt(0).toUpperCase() + username.slice(1).toLowerCase();
   const onChange = (event) => {
     console.log(username);
     setNote({ ...note, [event.target.name]: event.target.value });
   };
   return (
     <div>
+      {/* <MyEditor/> */}
       <div className="container my-3">
         {/* <h1> Hello {name}</h1> */}
         <h1>Hi {username} ! Add a Note</h1>
@@ -63,6 +96,14 @@ const AddNote = ({ username }) => {
               value={note.description}
               onChange={onChange}
             />
+            {/* <Editor
+              editorState={editorState}
+              onEditorStateChange={onEditorChange}
+              name="description"
+              wrapperClassName="wrapper-class"
+              editorClassName="editor-class"
+              toolbarClassName="toolbar-class"
+            /> */}
           </div>
           <div className="mb-3">
             <label htmlFor="tag" className="form-label">
@@ -77,16 +118,47 @@ const AddNote = ({ username }) => {
               onChange={onChange}
             />
           </div>
-
-          <button
+          <div className="mb-3">
+            <label htmlFor="email" className="form-label">
+              Share Note With
+            </label>
+            <input
+              type="text"
+              className="form-control"
+              id="shareduser"
+              name="shareduser"
+              value={note.shareduser}
+              onChange={onChange}
+              placeholder="Leave Blank if  you don't want to share the note."
+            />
+          </div>
+            {!note.shareduser&&  <button
             disabled={note.title.length < 5 || note.description.length < 5}
             type="submit"
             className="btn btn-primary"
             onClick={handleClick}
           >
             Add Note
-          </button>
+          </button> }
+          {/* <button
+            disabled={note.title.length < 5 || note.description.length < 5}
+            type="submit"
+            className="btn btn-primary"
+            onClick={handleClick}
+          >
+            Add Note
+          </button> */}
+          {note.shareduser && <button
+            disabled={note.title.length < 5 || note.description.length < 5}
+            type="submit"
+            className="btn btn-primary "
+            onClick={handleSharedClick}
+          >
+            Add Shared Note
+          </button>}
         </form>
+
+
       </div>
     </div>
   );

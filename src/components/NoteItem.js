@@ -4,9 +4,16 @@ import Alert from "./Alert";
 
 const NoteItem = (props) => {
   const context = useContext(noteContext);
-  const { deleteNote } = context;
-  const { note, updateNote } = props;
+  const { deleteNote, deleteSharedNote } = context;
+  const { note, isSharedNote, updateNote } = props;
 
+  const handleDelete = ()=>{
+    if(isSharedNote){
+      deleteSharedNote(note._id);
+    }else{
+      deleteNote(note._id);
+    }
+  }
   return (
     // <div>
     //   <h5>{note.title}</h5>
@@ -19,9 +26,10 @@ const NoteItem = (props) => {
             <h5 className="card-title">{note.title}</h5>
             <i
               className="far fa-trash-alt mx-2"
-              onClick={() => {
-                deleteNote(note._id);
-              }}
+              // onClick={() => {
+              //   deleteNote(note._id);
+              // }}
+              onClick={handleDelete}
             ></i>
             {/* <i className="far fa-trash-alt mx-2" onClick={handleOnClick}></i> */}
 
